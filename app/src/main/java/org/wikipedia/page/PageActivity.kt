@@ -666,9 +666,17 @@ class PageActivity : BaseActivity(), PageFragment.Callback, LinkPreviewDialog.Ca
                     !(title.contains(getString(R.string.menu_text_select_define)) &&
                             pageFragment.shareHandler.shouldEnableWiktionaryDialog())
         }.toList()
+        val youdao = menu.children.filter {
+            val title = it.title.toString()
+            title.contains("有道翻译")
+        }.toList()
         menu.clear()
         mode.menuInflater.inflate(R.menu.menu_text_select, menu)
+        youdao.forEach {
+            menu.add(it.groupId, it.itemId, Menu.NONE, it.title).setIntent(it.intent).icon = it.icon
+        }
         menuItemsList.forEach {
+            Log.d("actionMode", "menu: + ${it.title}")
             menu.add(it.groupId, it.itemId, Menu.NONE, it.title).setIntent(it.intent).icon = it.icon
         }
     }
